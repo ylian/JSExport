@@ -7,7 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <JavaScriptCore/JavaScriptCore.h>
 
-@interface JSEImagePicker : NSObject
+@class JSEImagePicker;
+
+@protocol JSEImagePickerExports <JSExport>
+
++ (JSEImagePicker *)create;
+
+JSExportAs(getPicture,
+- (void)getPicture:(NSDictionary *)options callback:(JSValue *)callback
+);
+
+@end
+
+@interface JSEImagePicker : NSObject <JSEImagePickerExports, UIImagePickerControllerDelegate,
+UIPopoverControllerDelegate, UINavigationControllerDelegate>
+{
+    JSValue *callback;
+}
+
+@property (nonatomic, strong) UIImagePickerController *picker;
+@property (nonatomic, strong) UIPopoverController *popover;
 
 @end
